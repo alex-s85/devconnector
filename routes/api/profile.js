@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const passport = require('passport');
 
 // Load Validation
 const validateProfileInput = require('../../validation/profile');
+const validateExperienceInput = require('../../validation/experience');
+const validateEducationInput = require('../../validation/education');
 
 // Load Profile Model
 const Profile = require('../../models/Profile');
-// Load User Profile
-const User = require('../../models/User');
 
 // @route   GET api/profiles/test
 // @desc    Tests profiles route
@@ -168,6 +167,102 @@ router.post(
             });
         }
       });
+  }
+);
+
+// @route   Post api/profile/experience
+// @desc    Add experience to profile
+// @access  Private
+router.post(
+  '/experience',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateExperienceInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        const {
+          title,
+          company,
+          location,
+          from,
+          to,
+          current,
+          description,
+        } = req.body;
+
+        const newExp = {
+          title,
+          company,
+          location,
+          from,
+          to,
+          current,
+          description,
+        }
+
+        // Add to exp array
+        profile.experience.unshift(newExp);
+
+        profile.save()
+          .then(profile => res.json(profile))
+          .catch(err => res.status(400).json(err));
+      })
+      .catch(err => res.status(404).json(err));
+  }
+);
+
+// @route   Post api/profile/education
+// @desc    Add education to profile
+// @access  Private
+router.post(
+  '/education',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validateEducationInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        const {
+          school,
+          degree,
+          fieldOfStudy,
+          from,
+          to,
+          current,
+          description,
+        } = req.body;
+
+        const newEdu = {
+          school,
+          degree,
+          fieldOfStudy,
+          from,
+          to,
+          current,
+          description,
+        }
+
+        // Add to exp array
+        profile.education.unshift(newEdu);
+
+        profile.save()
+          .then(profile => res.json(profile))
+          .catch(err => res.status(400).json(err));
+      })
+      .catch(err => res.status(404).json(err));
   }
 );
 
