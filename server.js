@@ -22,7 +22,7 @@ const db = require('./config/keys').mongoURI;
 mongoose
   .connect(db, { useUnifiedTopology: true })
   .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log('MongoDB error:', err))
+  .catch((err) => console.log('MongoDB error:', err));
 
 // Passport middleware
 app.use(passport.initialize());
