@@ -34,7 +34,7 @@ if (localStorage.jwtToken) {
   const currentTime = Date.now() / 1000;
   if (decoded.exp < currentTime) {
     // Logout user
-    store.dispatch(logoutUser);
+    store.dispatch(logoutUser());
     // TODO: Clear current Profile
     store.dispatch(clearCurrentProfile);
 
