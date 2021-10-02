@@ -16,7 +16,7 @@ const User = require('../../models/User');
 // @route   GET api/profiles/test
 // @desc    Tests profiles route
 // @access  Public
-router.get('/test', (req, res) => res.json({ msg: "Profile works" }));
+router.get('/test', (req, res) => res.json({ msg: 'Profile works' }));
 
 // @route   GET api/profile
 // @desc    Get current users profile
@@ -28,10 +28,10 @@ router.get(
     const errors = {};
 
     Profile.findOne({ user: req.user.id })
-      .populate("user", ["name", "avatar"])
+      .populate('user', ['name', 'avatar'])
       .then((profile) => {
         if (!profile) {
-          errors.noprofile = "There is no profile for this user";
+          errors.noprofile = 'There is no profile for this user';
           return res.status(404).json(errors);
         }
         res.json(profile);
@@ -56,7 +56,7 @@ router.get('/all', (req, res) => {
       res.json(profiles);
     })
     .catch((err) =>
-      res.status(404).json({ profiles: "There are no profiles" }),
+      res.status(404).json({ profiles: 'There are no profiles' }),
     );
 });
 
@@ -163,8 +163,8 @@ router.post(
         // Check if handle exists
         Profile.findOne({ handle: profileFields.handle }).then((profile) => {
           if (profile) {
-            errors.handle = "That handle already exists";
-            res.status(400).json(erros);
+            errors.handle = 'That handle already exists';
+            res.status(400).json(errors);
           }
 
           // Save Profile
@@ -277,7 +277,7 @@ router.delete(
 
         if (removeIndex < 0) {
           return res.status(404).json({
-            noexperience: "There is no experience item matching the id.",
+            noexperience: 'There is no experience item matching the id.',
           });
         }
 
@@ -310,7 +310,7 @@ router.delete(
 
         if (removeIndex < 0) {
           return res.status(404).json({
-            noeducation: "There is no education item matching the id.",
+            noeducation: 'There is no education item matching the id.',
           });
         }
 
