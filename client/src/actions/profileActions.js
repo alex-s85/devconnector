@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {
   GET_PROFILE,
-  PROFILE_LAODING,
+  PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
   SET_CURRENT_USER,
@@ -66,6 +66,24 @@ export const addEducation = (eduData, history) => (dispatch) => {
     );
 };
 
+// Delete Experience
+export const deleteExperience = (id) => (dispatch) => {
+  axios
+    .delete(`/api/profile/experience/${id}`)
+    .then((res) =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data,
+      }),
+    )
+    .catch((err) =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data,
+      }),
+    );
+};
+
 // Delete account & profile
 export const deleteAccount = () => (dispatch) => {
   if (window.confirm('Are you sure? This can NOT be undone!')) {
@@ -89,7 +107,7 @@ export const deleteAccount = () => (dispatch) => {
 // Profile loading
 export const setProfileLoading = () => {
   return {
-    type: PROFILE_LAODING,
+    type: PROFILE_LOADING,
   };
 };
 
