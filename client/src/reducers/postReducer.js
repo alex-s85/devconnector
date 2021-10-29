@@ -1,5 +1,6 @@
 import {
   ADD_POST,
+  GET_POST,
   GET_POSTS,
   POST_LOADING,
   DELETE_POST,
@@ -36,6 +37,12 @@ export default function (state = initialState, action) {
         posts: state.posts.map((post, index) => {
           return index !== postIndex ? post : updatedPost;
         }),
+      };
+    case GET_POST:
+      return {
+        ...state,
+        post: action.payload,
+        loading: false,
       };
     case GET_POSTS:
       return {
