@@ -6,7 +6,9 @@ import { GET_ERRORS, SET_CURRENT_USER } from './types';
 
 // Register User
 export const registerUser = (userData, history) => (dispatch) => {
-  axios.defaults.baseURL = 'http://localhost:5000';
+  if (process.env.NODE_ENV !== 'production') {
+    axios.defaults.baseURL = 'http://localhost:5000';
+  }
   axios
     .post('/api/users/register', userData)
     .then((res) => history.push('/login'))
@@ -20,7 +22,9 @@ export const registerUser = (userData, history) => (dispatch) => {
 
 // Login - Get User Token
 export const loginUser = (userData) => (dispatch) => {
-  axios.defaults.baseURL = 'http://localhost:5000';
+  if (process.env.NODE_ENV !== 'production') {
+    axios.defaults.baseURL = 'http://localhost:5000';
+  }
   axios
     .post('/api/users/login', userData)
     .then((res) => {
